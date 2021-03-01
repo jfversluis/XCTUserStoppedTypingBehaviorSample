@@ -10,9 +10,23 @@ namespace XCTUserStoppedTypingBehaviorSample
 {
     public partial class MainPage : ContentPage
     {
+        public Command<string> UserStoppedTypingCommand { get; set; }
+        int count = 0;
+
         public MainPage()
         {
             InitializeComponent();
+
+            UserStoppedTypingCommand = new Command<string>((value) =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    count++;
+                    resultText.Text = $"triggered: {count}, value: {value}";
+                });
+            });
+
+            BindingContext = this;
         }
     }
 }
